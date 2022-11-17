@@ -47,6 +47,6 @@ def part_two(file: str):
 
 if __name__ == "__main__":
     part_one("test.txt")
-    part_one("input1.txt")
+    part_one("input.txt")
     part_two("test.txt")
-    part_two("input1.txt")
+    part_two("input.txt")
