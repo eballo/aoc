@@ -13,7 +13,7 @@ def part_one(file: str) -> None:
     horizontal = 0
 
     for direction, number in load_file(file):
-        print(f"direction {direction} - number {number}")
+        # print(f"direction {direction} - number {number}")
         match direction:
             case "forward":
                 horizontal = horizontal + number
@@ -34,7 +34,7 @@ def part_two(file: str) -> None:
     aim = 0
 
     for direction, number in load_file(file):
-        print(f"direction {direction} - number {number}")
+        # print(f"direction {direction} - number {number}")
         match direction:
             case "forward":
                 horizontal = horizontal + number
@@ -51,7 +51,7 @@ def part_two(file: str) -> None:
 
 
 if __name__ == '__main__':
-    # part_one("test.txt")
-    # part_one("input.txt")
-    # part_two("test.txt")
+    part_one("test.txt")
+    part_one("input.txt")
+    part_two("test.txt")
     part_two("input.txt")
