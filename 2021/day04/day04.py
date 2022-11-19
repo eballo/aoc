@@ -25,12 +25,24 @@ class Board:
                     self.board_marked[x][y] = True
 
     def bingo(self):
+        # check rows
         for row_list in range(0, len(self.board_marked)):
             row = [value for value in self.board_marked[row_list]]
             if all(row):
                 return True
             else:
                 continue
+        # check columns
+        column = []
+        for row_list in range(0, len(self.board_marked)):
+            for colum in range(0, len(self.board_marked)):
+                column.append(self.board_marked[colum][row_list])
+            if all(column):
+                return True
+            else:
+                column = []
+                continue
+
         return False
 
     def sum_unmarked_numbers(self) -> int:
@@ -102,26 +114,24 @@ def part_two(file: str) -> None:
     numbers, boards = load_file(file)
 
     final_number = -1
+    last_board = None
     wining_boards = []
     for number in numbers:
         # print(f"{number}\n")
         final_number = number
-        if len(wining_boards) == len(boards) - 1:
-            break
         for x in range(0, len(boards)):
             boards[x].mark(number)
             if boards[x].bingo() and boards[x] not in wining_boards:
-                print("BINGO!!")
+                # print("BINGO!!")
                 wining_boards.append(boards[x])
+                last_board = boards[x]
 
-    print(wining_boards)
-    last_board = [board for board in boards if board not in wining_boards]
+        if len(wining_boards) == len(boards):
+            break
+
     print(last_board)
-    last_board = last_board[0]
     print(final_number)
 
-    last_board.mark(final_number)
-    print(last_board)
     total = last_board.sum_unmarked_numbers()
     print(f"Sum unmarked numbers - wining board : {total}")
     print(f"score: {final_number * total}")
@@ -129,9 +139,9 @@ def part_two(file: str) -> None:
 
 if __name__ == '__main__':
     print("-------- Part One -------")
-    # part_one("test.txt")
-    # part_one("input.txt")
-    # print("")
-    # print("-------- Part Two -------")
-    # part_two("test.txt")
+    part_one("test.txt")
+    part_one("input.txt")
+    print("")
+    print("-------- Part Two -------")
+    part_two("test.txt")
     part_two("input.txt")
