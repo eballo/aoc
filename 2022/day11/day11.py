@@ -147,9 +147,74 @@ def part_one(file: str):
 
     print(f"The level of monkey business : {final_results[-1]} * {final_results[-2]} = {final_results[-1] * final_results[-2]}")
 
+
 def part_two(file: str):
     raw_data = load_file(file)
-    pass
+    monkeys = parse_monkeys(raw_data)
+    divisible_product = math.prod([monkey.test['divisible_by'] for monkey in monkeys])
+    rounds = 10000
+
+    for round in range(rounds):
+        print(f"Round {round + 1} ----------------------- ")
+        for monkey in monkeys:
+            print(f"Monkey {monkey.monkey_id}:")
+            print(f"  Items: {monkey.items}")
+            divisible_by = False
+            insected_items = []
+            for item in monkey.items:
+                insected_items.append(item)
+                print(f"    Monkey inspects an item with a worry level of {item}")
+
+                if monkey.operation['argument'] == "old":
+                    argument = item
+                else:
+                    argument = monkey.operation['argument']
+
+                if monkey.operation['operation'] == "+":
+                    operation = item + argument
+                elif monkey.operation['operation'] == "*":
+                    operation = item * argument
+
+                print(f"    Worry level is {monkey.operation['operation']} by {argument} to {operation}")
+
+                # https://en.wikipedia.org/wiki/Chinese_remainder_theorem
+                worry_level = operation % divisible_product
+
+                print(f"    Monkey gets bored with item. Worry level is divided by 3 to {worry_level}.")
+
+                if worry_level % monkey.test['divisible_by'] == 0:
+                    divisible_by = True
+                    print(f"    Current worry level is divisible by {monkey.test['divisible_by']}")
+                else:
+                    print(f"    Current worry level is not divisible by {monkey.test['divisible_by']}")
+                    divisible_by = False
+
+                if divisible_by:
+                    print(f"    Item with worry level {worry_level} is thrown to monkey {monkey.test['true']}.")
+                    monkeys[monkey.test['true']].add_item(worry_level)
+                else:
+                    print(f"    Item with worry level {worry_level} is thrown to monkey {monkey.test['false']}.")
+                    monkeys[monkey.test['false']].add_item(worry_level)
+            print(f"    removed item {insected_items} from monkey {monkey.monkey_id}")
+            for item in insected_items:
+                monkey.items.remove(item)  # remove item from current monkey
+                monkey.inspected_items += 1  # increment inspected items
+        print("----------------------- ")
+        print(f"Items after round {round + 1}:")
+        for monkey in monkeys:
+            print(f"Monkey {monkey.monkey_id}: {monkey.items}")
+        print("----------------------- ")
+
+    print("Final results:")
+    final_results = []
+    for monkey in monkeys:
+        print(f"Monkey {monkey.monkey_id}: {monkey.inspected_items}")
+        final_results.append(monkey.inspected_items)
+
+    final_results = sorted(final_results)
+
+    print(
+        f"The level of monkey business : {final_results[-1]} * {final_results[-2]} = {final_results[-1] * final_results[-2]}")
 
 
 if __name__ == "__main__":
@@ -157,7 +222,7 @@ if __name__ == "__main__":
     part_one("test.txt")
     print("=== Part 1 Input ==")
     part_one("input.txt")
-    # print("=== Part 2 Test ==")
-    # part_two("test.txt")
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Test ==")
+    part_two("test.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
