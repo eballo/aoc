@@ -51,7 +51,7 @@ def part_one(file: str):
 
     games = []
     for raw_line in raw_lines:
-        print(raw_line)
+        # print(raw_line)
         games.append(Game(raw_line).parse_game())
 
     game_ids = []
@@ -80,18 +80,46 @@ def part_one(file: str):
 
 
 def part_two(file: str):
-    raw_values = load_file(file)
+    raw_lines = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    games = []
+    for raw_line in raw_lines:
+        # print(raw_line)
+        games.append(Game(raw_line).parse_game())
+
+    game_ids = []
+    power = 0
+    for game in games:
+        max_color = {
+            "green": 0,
+            "red": 0,
+            "blue": 0,
+        }
+        for set_of_totals in game.set_of_totals:
+            print(set_of_totals)
+            for color, total in set_of_totals.items():
+                print(f"{color}: {total}")
+                if color == "red":
+                    if total > max_color["red"]:
+                        max_color["red"] = total
+                if color == "green":
+                    if total > max_color["green"]:
+                        max_color["green"] = total
+                if color == "blue":
+                    if total > max_color["blue"]:
+                        max_color["blue"] = total
+
+        power += max_color["red"] * max_color["green"] * max_color["blue"]
+
+    print(f"Total: {power}")
 
 
 if __name__ == "__main__":
     # print("=== Part 1 Test ==")
     # part_one("test.txt")
-    print("=== Part 1 Input ==")
-    part_one("input.txt")
+    # print("=== Part 1 Input ==")
+    # part_one("input.txt")
     # print("=== Part 2 Test ==")
     # part_two("test.txt")
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
