@@ -6,16 +6,16 @@ def load_file(file):
 
 
 def part_one(file: str):
-    # Find the two entries that sum to 2020; what do you get if you multiply them together?
     raw_values = load_file(file)
 
-    for value in range(len(raw_values)):
+    for value in raw_values:
         print(value)
 
 
 def part_two(file: str):
     raw_values = load_file(file)
-    for value in range(len(raw_values)):
+
+    for value in raw_values:
         print(value)
 
 
