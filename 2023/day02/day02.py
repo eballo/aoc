@@ -58,20 +58,20 @@ def part_one(file: str):
     for game in games:
         possible = True
         for set_of_totals in game.set_of_totals:
-            print(set_of_totals)
+            # print(set_of_totals)
             for color, total in set_of_totals.items():
-                print(f"{color}: {total}")
+                # print(f"{color}: {total}")
                 if (color == "red" and total > 12) and possible:
-                    print(f"Game {game.game_id} is Impossible!")
+                    # print(f"Game {game.game_id} is Impossible!")
                     possible = False
                 if (color == "green" and total > 13) and possible:
-                    print(f"Game {game.game_id} is Impossible!")
+                    # print(f"Game {game.game_id} is Impossible!")
                     possible = False
                 if (color == "blue" and total > 14) and possible:
-                    print(f"Game {game.game_id} is Impossible!")
+                    # print(f"Game {game.game_id} is Impossible!")
                     possible = False
         if possible:
-            print(f"Game {game.game_id} is Possible!")
+            # print(f"Game {game.game_id} is Possible!")
             game_ids.append(game.game_id)
 
     print(f"Game IDs: {game_ids}")
@@ -87,7 +87,6 @@ def part_two(file: str):
         # print(raw_line)
         games.append(Game(raw_line).parse_game())
 
-    game_ids = []
     power = 0
     for game in games:
         max_color = {
@@ -96,9 +95,9 @@ def part_two(file: str):
             "blue": 0,
         }
         for set_of_totals in game.set_of_totals:
-            print(set_of_totals)
+            # print(set_of_totals)
             for color, total in set_of_totals.items():
-                print(f"{color}: {total}")
+                # print(f"{color}: {total}")
                 if color == "red":
                     if total > max_color["red"]:
                         max_color["red"] = total
@@ -115,11 +114,11 @@ def part_two(file: str):
 
 
 if __name__ == "__main__":
-    # print("=== Part 1 Test ==")
-    # part_one("test.txt")
-    # print("=== Part 1 Input ==")
-    # part_one("input.txt")
-    # print("=== Part 2 Test ==")
-    # part_two("test.txt")
+    print("=== Part 1 Test ==")
+    part_one("test.txt")
+    print("=== Part 1 Input ==")
+    part_one("input.txt")
+    print("=== Part 2 Test ==")
+    part_two("test.txt")
     print("=== Part 2 Input ==")
     part_two("input.txt")
