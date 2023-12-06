@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 
 def load_file(file):
     with open(file) as f:
@@ -64,8 +66,20 @@ def part_two(file: str):
 
     cards = get_cards(raw_lines)
 
+    worth_points = 0
+    cards_dict = defaultdict(int)
+
     for card in cards:
-        print(card)
+        cards_dict[card.card_number] += 1  # original card
+        total_matches = len(card.get_matches())
+        # print(f"Card Number: {card.card_number} - Total Matches: {total_matches}")
+        for num in range(card.card_number + 1, card.card_number + 1 + total_matches):
+            # print(f"Number: {num}")
+            cards_dict[num] += cards_dict[card.card_number]
+
+    print(cards_dict)
+
+    print(f"total: {sum(cards_dict.values())}")
 
 
 if __name__ == "__main__":
@@ -73,7 +87,7 @@ if __name__ == "__main__":
     part_one("test.txt")
     print("=== Part 1 Input ==")
     part_one("input.txt")
-    # print("=== Part 2 Test ==")
-    # part_two("test.txt")
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Test ==")
+    part_two("test.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
