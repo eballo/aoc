@@ -15,6 +15,14 @@ def _parse_data(raw_values):
     return distances, time
 
 
+def _parse_data_part2(raw_values):
+    time_raw = raw_values.split("\n")[0].split(":")[1].strip().replace(" ", "")
+    distances_raw = raw_values.split("\n")[1].split(":")[1].strip().replace(" ", "")
+    time = int(time_raw)
+    distances = int(distances_raw)
+    return distances, time
+
+
 def part_one(file: str):
     raw_values = load_file(file)
 
@@ -42,16 +50,32 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    distances, time = _parse_data_part2(raw_values)
+
+    race = defaultdict(list)
+
+    for x in range(0, time + 1):
+        speed = x
+        total_time = time - x
+        # print(f"hold button {x} milliseconds - Then, the boat will travel at a speed of {speed} millimeter per millisecond for {total_time} milliseconds, reaching a total distance traveled of {total_time * speed} millimeters")
+        if total_time * speed > distances:
+            # print(f"candidate to win the game: hold button {x} milliseconds")
+            race[1].append(x)
+
+    print(race)
+    total = 1
+    for x in race.values():
+        total *= len(x)
+
+    print(total)
 
 
 if __name__ == "__main__":
-    print("=== Part 1 Test ==")
-    part_one("test.txt")
-    print("=== Part 1 Input ==")
-    part_one("input.txt")
-    # print("=== Part 2 Test ==")
-    # part_two("test.txt")
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    # print("=== Part 1 Test ==")
+    # part_one("test.txt")
+    # print("=== Part 1 Input ==")
+    # part_one("input.txt")
+    print("=== Part 2 Test ==")
+    part_two("test.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
