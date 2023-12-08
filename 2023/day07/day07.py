@@ -57,6 +57,44 @@ def get_strength(hand: str) -> Tuple[int, str, str]:
     else:
         raise ValueError(f"Invalid hand {hand} {new_hand} - {counter.values()}")
 
+def get_strength_with_joker(hand: str) -> Tuple[int, str, str]:
+    """Return the strength of the hand and the hand itself."""
+
+    # Replace the letters the next char in the alphabet after 9
+    # this way we can sort them good
+
+    new_hand = hand.replace("T", chr(ord('9') + 1))
+    new_hand = new_hand.replace("J", chr(ord('2') - 1))  # Joker
+    new_hand = new_hand.replace("Q", chr(ord('9') + 3))
+    new_hand = new_hand.replace("K", chr(ord('9') + 4))
+    new_hand = new_hand.replace("Q", chr(ord('9') + 5))
+
+    counter = Counter(new_hand)
+
+    # Five of a kind
+    if sorted(counter.values()) == [5]:
+        return 8, new_hand, hand
+    # Four of a kind
+    elif sorted(counter.values()) == [1, 4]:
+        return 7, new_hand, hand
+    # Full house
+    elif sorted(counter.values()) == [2, 3]:
+        return 6, new_hand, hand
+    # Three of a kind
+    elif sorted(counter.values()) == [1, 1, 3]:
+        return 5, new_hand, hand
+    # Two pair
+    elif sorted(counter.values()) == [1, 2, 2]:
+        return 4, new_hand, hand
+    # One pair
+    elif sorted(counter.values()) == [1, 1, 1, 2]:
+        return 3, new_hand, hand
+    # High card
+    elif sorted(counter.values()) == [1, 1, 1, 1, 1]:
+        return 2, new_hand, hand
+    else:
+        raise ValueError(f"Invalid hand {hand} {new_hand} - {counter.values()}")
+
 
 def part_one(file: str):
     raw_values = load_file(file)
@@ -79,16 +117,27 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    game = []
+    for camel_cards in raw_values:
+        hand = camel_cards.split(" ")[0]
+        bid = int(camel_cards.split(" ")[1])
+        game.append((hand, bid))
+
+    total_winning = 0
+    game = sorted(game, key=lambda x: get_strength_with_joker(x[0]))
+    for i, (hand, bid) in enumerate(game):
+        print(f"{i+1} - {hand} - {bid} - {get_strength_with_joker(hand)}")
+        total_winning += (i+1) * bid
+
+    print(total_winning)
 
 
 if __name__ == "__main__":
-    print("=== Part 1 Test ==")
-    part_one("test.txt")
-    print("=== Part 1 Input ==")
-    part_one("input.txt")
-    # print("=== Part 2 Test ==")
-    # part_two("test.txt")
+    # print("=== Part 1 Test ==")
+    # part_one("test.txt")
+    # print("=== Part 1 Input ==")
+    # part_one("input.txt")
+    print("=== Part 2 Test ==")
+    part_two("test.txt")
     # print("=== Part 2 Input ==")
     # part_two("input.txt")
