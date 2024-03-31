@@ -1,2 +1,6 @@
 .idea/
 .python-version
+
+# remove data from github
+**/input.txt
+**/test.txt
