@@ -1,6 +1,11 @@
+import datetime
 import os
+from typing import Tuple
+
 from aocd import get_data
 import shutil
+
+from aocd.exceptions import PuzzleLockedError
 
 
 def add_left_padding(day: str) -> str:
@@ -41,14 +46,19 @@ def create_input_data(directory_path: str, year: str, day: str) -> None:
     """
     input_file = directory_path + "/input.txt"
     if not os.path.exists(input_file):
-        data = get_data(day=int(day), year=int(year))
-        if data:
-            file_path = os.path.join(directory_path, "input.txt")
-            with open(file_path, 'w') as file:
-                file.write(data)
-            print("Data successfully created.")
-        else:
-            print("No data found")
+        try:
+            data = get_data(day=int(day), year=int(year))
+            if data:
+                file_path = os.path.join(directory_path, "input.txt")
+                with open(file_path, 'w') as file:
+                    file.write(data)
+                print("Data successfully created.")
+            else:
+                print("No data found")
+        except PuzzleLockedError:
+            print("Error - Puzzle data is not available")
+
+
     else:
         print("Input file already exists - SKIP")
 
@@ -64,9 +74,26 @@ def create_data(directory_path: str, year: str, day: str) -> None:
     create_file_from_template(directory_path, full_directory_path, day)
 
 
-if __name__ == '__main__':
-    directory_path = '/Users/eballo/Documents/work/python/aoc'
-    year = input("Year: ")
-    day = input("Day: ")
+def get_year_and_day() -> Tuple[str, str]:
+    default_day = datetime.datetime.now().day
+    default_year = datetime.datetime.now().year
+    try:
+        year = input(f"Year ({default_year}): ")
+        day = input(f"Day ({default_day}): ")
+    except KeyboardInterrupt:
+        exit()
 
-    create_data(directory_path, year, day)
+    if not year:
+        year = str(default_year)
+    if not day:
+        day = str(default_day)
+
+    return year, day
+
+
+if __name__ == '__main__':
+
+    current_working_directory = os.getcwd()     # get the current working directory
+    year, day = get_year_and_day()
+
+    create_data(current_working_directory, year, day)
