@@ -1,5 +1,6 @@
 from aocd import get_data
 
+
 def load_file(file):
     with open(file) as f:
         values = [str(line) for line in f.readlines()]
@@ -38,10 +39,10 @@ def part_two(file: str):
 
             # print(floor)
             if floor == -1:
-                enter_first_floor_pos.append(x+1)
+                enter_first_floor_pos.append(x + 1)
                 # print(f"position: {x+1}")
         if enter_first_floor_pos:
-            print(f"postition: {enter_first_floor_pos[0]}")
+            print(f"position: {enter_first_floor_pos[0]}")
 
 
 if __name__ == "__main__":

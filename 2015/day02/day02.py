@@ -27,7 +27,7 @@ def calculate_ribbon(length, width, height):
 
 def part_one(file: str):
     raw_values = load_file(file)
-    total=0
+    total = 0
     for value in raw_values:
         dimensions = value.split("x")
         l = int(dimensions[0])
