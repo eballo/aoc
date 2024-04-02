@@ -3,9 +3,14 @@ from aocd import get_data
 import shutil
 
 
+def add_left_padding(day: str) -> str:
+    """ Add a padding of 2 with 0 if needed """
+    return day.rjust(2, "0")
+
+
 def get_full_directory_path(directory_path: str, year: str, day: str) -> str:
     """ Returns the full directory path for a given year and day """
-    return directory_path + '/' + year + '/day' + day.rjust(2, "0")
+    return directory_path + '/' + year + '/day' + add_left_padding(day)
 
 
 def create_directory(full_directory_path: str) -> None:
@@ -19,7 +24,7 @@ def create_directory(full_directory_path: str) -> None:
 
 def create_file_from_template(directory_path: str, full_directory_path: str, day: str) -> None:
     """ Copies a template file to the full directory if it doesn't exist """
-    padding_day = day.rjust(2, "0")
+    padding_day = add_left_padding(day)
     template = directory_path + "/template/dayXX.py"
     destination = full_directory_path + f"/day{padding_day}.py"
     if not os.path.exists(destination):
