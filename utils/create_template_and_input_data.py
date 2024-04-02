@@ -3,11 +3,13 @@ from aocd import get_data
 import shutil
 
 
-def get_full_directory_ppath(day, directory_path, year):
+def get_full_directory_path(directory_path: str, year: str, day: str) -> str:
+    """ Returns the full directory path for a given year and day """
     return directory_path + '/' + year + '/day' + day.rjust(2, "0")
 
 
-def create_directory(full_directory_path):
+def create_directory(full_directory_path: str) -> None:
+    """ Creates the full directory path if it doesn't exist """
     if not os.path.exists(full_directory_path):
         os.makedirs(full_directory_path)
         print(f"Directory '{full_directory_path}' created successfully.")
@@ -16,6 +18,7 @@ def create_directory(full_directory_path):
 
 
 def create_file_from_template(directory_path: str, full_directory_path: str, day: str) -> None:
+    """ Copies a template file to the full directory if it doesn't exist """
     template = directory_path + "/template/dayXX.py"
     destination = full_directory_path + f"/day{day}.py"
     if not os.path.exists(destination):
@@ -26,6 +29,10 @@ def create_file_from_template(directory_path: str, full_directory_path: str, day
 
 
 def create_input_data(directory_path: str, year: str, day: str) -> None:
+    """
+    if the input data is not present will try to download it from AOC
+    web page using aocd library
+    """
     input_file = directory_path + "/input.txt"
     if not os.path.exists(input_file):
         data = get_data(day=int(day), year=int(year))
@@ -41,7 +48,10 @@ def create_input_data(directory_path: str, year: str, day: str) -> None:
 
 
 def create_data(directory_path: str, year: str, day: str) -> None:
-    full_directory_path = get_full_directory_ppath(day, directory_path, year)
+    """
+        Set up the directory structure and create the input file if it doesn't exist
+    """
+    full_directory_path = get_full_directory_path(directory_path, year, day)
 
     create_directory(full_directory_path)
     create_input_data(full_directory_path, year, day)
@@ -52,4 +62,5 @@ if __name__ == '__main__':
     directory_path = '/Users/eballo/Documents/work/python/aoc'
     year = input("Year: ")
     day = input("Day: ")
+    
     create_data(directory_path, year, day)
