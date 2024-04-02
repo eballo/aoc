@@ -1,6 +1,6 @@
 # Makefile
 
-all: create_template_and_input_data
+all: run
 
-create_template_and_input_data:
+run:
 	python utils/create_template_and_input_data.py

@@ -21,7 +21,7 @@ def part_two(file: str):
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
-    part_one("dayXX/input.txt")
+    part_one("input.txt")
 
     # print("=== Part 2 Input ==")
     # part_two("input.txt")
