@@ -19,8 +19,9 @@ def create_directory(full_directory_path: str) -> None:
 
 def create_file_from_template(directory_path: str, full_directory_path: str, day: str) -> None:
     """ Copies a template file to the full directory if it doesn't exist """
+    padding_day = day.rjust(2, "0")
     template = directory_path + "/template/dayXX.py"
-    destination = full_directory_path + f"/day{day}.py"
+    destination = full_directory_path + f"/day{padding_day}.py"
     if not os.path.exists(destination):
         shutil.copy(template, destination)
         print("Template copied to '" + destination + "")
@@ -62,5 +63,5 @@ if __name__ == '__main__':
     directory_path = '/Users/eballo/Documents/work/python/aoc'
     year = input("Year: ")
     day = input("Day: ")
-    
+
     create_data(directory_path, year, day)
