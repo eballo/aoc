@@ -80,8 +80,10 @@ def get_year_and_day() -> Tuple[str, str]:
     try:
         year = input(f"Year ({default_year}): ")
         day = input(f"Day ({default_day}): ")
-    except KeyboardInterrupt:
-        exit()
+    except KeyboardInterrupt as key:
+        raise key
+
+    # TODO: validate year and day
 
     if not year:
         year = str(default_year)
@@ -92,8 +94,10 @@ def get_year_and_day() -> Tuple[str, str]:
 
 
 if __name__ == '__main__':
+    try:
+        current_working_directory = os.getcwd()     # get the current working directory
+        year, day = get_year_and_day()
 
-    current_working_directory = os.getcwd()     # get the current working directory
-    year, day = get_year_and_day()
-
-    create_data(current_working_directory, year, day)
+        create_data(current_working_directory, year, day)
+    except KeyboardInterrupt as e:
+        exit()
