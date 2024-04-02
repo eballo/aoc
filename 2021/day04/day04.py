@@ -138,10 +138,8 @@ def part_two(file: str) -> None:
 
 
 if __name__ == '__main__':
-    print("-------- Part One -------")
-    part_one("test.txt")
+    print("=== Part 1 Input ==")
     part_one("input.txt")
-    print("")
-    print("-------- Part Two -------")
-    part_two("test.txt")
+
+    print("=== Part 2 Input ==")
     part_two("input.txt")
