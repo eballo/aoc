@@ -42,6 +42,18 @@ def find_shortest_route(distances):
     return shortest_distance, shortest_route
 
 
+def find_longest_route(distances):
+    cities = list(distances.keys())
+    longest_distance = float(0)  # zero value
+    longest_route = None
+    for route in permutations(cities):
+        # sample route: ('Faerun', 'Norrath', 'Tristram', 'AlphaCentauri', 'Arbre', 'Snowdin', 'Tambi', 'Straylight')
+        distance = calculate_route_distance(route, distances)
+        if distance > longest_distance:
+            longest_distance = distance
+            longest_route = route
+    return longest_distance, longest_route
+
 def part_one(file: str):
     raw_values = load_file(file)
 
@@ -54,13 +66,15 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    print(raw_values)
+    distances = get_distances_dict(raw_values)
+    longest_distance, longest_route = find_longest_route(distances)
+    print(f"Longest route distance is {longest_distance} with route {longest_route}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
