@@ -21,6 +21,36 @@ def count_literal_and_memory_characters(strings):
     return total_literal, total_memory
 
 
+def count_encoded_and_literal_characters(strings):
+    total_encoded = 0
+    total_literal = 0
+
+    for s in strings:
+        # Count literal characters
+        literal_count = len(s)
+        total_literal += literal_count
+
+        # Encode the string and count encoded characters
+        encoded_string = '"' + s.replace('\\', '\\\\').replace('"', '\\"') + '"'
+
+        # Explanation:
+        # s.replace('\\', '\\\\') -> This part replaces every single backslash (\) in the string with
+        # double backslashes (\\).
+        # For example: abc\def, it will become abc\\def.
+
+        # next part .replace('"', '\\"') -> This part replaces every double quote (") in the string with an escaped
+        # double quote (\").
+        # For example: abc"def, it will become abc\"def.
+
+        # Final example: 'abc"def\\ghi'
+        # encoded string should be: "abc\"def\\ghi"
+
+        encoded_count = len(encoded_string)
+        total_encoded += encoded_count
+
+    return total_encoded, total_literal
+
+
 def part_one(file: str):
     raw_values = load_file(file)
 
@@ -31,13 +61,13 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    total_encoded, total_literal = count_encoded_and_literal_characters(raw_values)
+    print(f"Total:{total_encoded - total_literal}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
