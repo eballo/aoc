@@ -59,13 +59,27 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    parsed_instructions = parse_input(raw_values)
+    print(raw_values)
+    print(parsed_instructions)
+
+    memo = {}
+    signal = get_signal('a', parsed_instructions, memo)
+    print(f" The ultimate signal to wire a is {signal}")
+
+    # override with signal 'a'
+    print(parsed_instructions['b'])
+    parsed_instructions['b'] = str(signal)
+
+    print(parsed_instructions)
+    memo = {}
+    signal = get_signal('a', parsed_instructions, memo)
+    print(f" The ultimate signal to wire a is {signal}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
