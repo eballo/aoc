@@ -33,10 +33,18 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
+    sequence = raw_values[0]
+    process_times = 50
+
+    for _ in range(process_times):
+        sequence = look_and_say(sequence)
+
+    print(f"the length of the result is: {len(sequence)}")
+
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
