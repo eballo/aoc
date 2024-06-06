@@ -67,13 +67,16 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    raw_values = load_file(file)
+
+    next_password1 = next_valid_password(raw_values[0])
+    next_password2 = next_valid_password(next_password1)
+    print(f"Next valid password after {raw_values[0]} is {next_password1} and after is {next_password2}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
