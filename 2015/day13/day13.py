@@ -48,6 +48,13 @@ def find_optimal_happiness(happiness_map: dict):
     return max_happiness
 
 
+def add_myself(happiness_map: dict):
+    people = list(happiness_map.keys())
+    happiness_map['myself'] = {person: 0 for person in people}
+    for person in people:
+        happiness_map[person]['myself'] = 0
+
+
 def part_one(file: str):
     raw_values = load_file(file)
 
@@ -60,10 +67,16 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
+    happiness_map = parse_raw_data(raw_values)
+    add_myself(happiness_map)
+    print(json.dumps(happiness_map, sort_keys=True, indent=2))
+    max_happiness = find_optimal_happiness(happiness_map)
+    print(f"The maximum total happiness is: {max_happiness}")
+
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
