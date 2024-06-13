@@ -42,6 +42,22 @@ def matches(aunt: dict, known: dict) -> bool:
     return True
 
 
+def matches_real(aunt: dict, known: dict) -> bool:
+    for key in aunt:
+        # print(key, aunt[key])
+        if key in ["cats", "trees"]:
+            if aunt[key] <= known[key]:
+                return False
+        elif key in ["pomeranians", "goldfish"]:
+            if aunt[key] >= known[key]:
+                return False
+
+        else:
+            if key in known and aunt[key] != known[key]:
+                return False
+    return True
+
+
 def part_one(file: str):
     raw_values = load_file(file)
     aunts_sue = parse_aunt_sue_values(raw_values)
@@ -57,14 +73,20 @@ def part_one(file: str):
 
 def part_two(file: str):
     raw_values = load_file(file)
+    aunts_sue = parse_aunt_sue_values(raw_values)
+    print(aunts_sue)
 
-    for value in raw_values:
-        print(value)
+    correct_aunt = None
+    for aunt, values in aunts_sue.items():
+        if matches_real(values, known_attributes):
+            correct_aunt = aunt
+            break
+    print(f"What is the number of the real Aunt Sue? {correct_aunt}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
