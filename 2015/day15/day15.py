@@ -22,7 +22,7 @@ def parse_ingredients(raw_values: List[str]) -> dict[str, dict[str, int]]:
     return ingredients
 
 
-def calculate_score(amounts: dict, ingredients: dict) -> int:
+def calculate_score(amounts: dict, ingredients: dict, max_calories) -> int:
     capacity, durability, flavor, texture, calories, score = 0, 0, 0, 0, 0, 0
 
     for (ingredient, amount) in amounts.items():
@@ -39,19 +39,21 @@ def calculate_score(amounts: dict, ingredients: dict) -> int:
     texture = max(0, texture)
 
     score = capacity * durability * flavor * texture
+    if max_calories is not None:
+        return score if calories == max_calories else 0
     return score
 
 
-def find_best_score(ingredients):
+def find_best_score(ingredients, max_calories=None):
     best_score = 0
     ingredient_names = list(ingredients.keys())
 
     for amounts in itertools.product(range(101), repeat=len(ingredient_names)):
         if sum(amounts) == 100:
             amounts_dict = dict(zip(ingredient_names, amounts))
-            score = calculate_score(amounts_dict, ingredients)
-            if score > 0:
-                print(f"amounts: {amounts_dict}, score: {score}")
+            score = calculate_score(amounts_dict, ingredients, max_calories)
+            # if score > 0:
+            #     print(f"amounts: {amounts_dict}, score: {score}")
             best_score = max(best_score, score)
 
     return best_score
@@ -60,21 +62,22 @@ def find_best_score(ingredients):
 def part_one(file: str):
     raw_values = load_file(file)
     ingredients = parse_ingredients(raw_values)
-    print(json.dumps(ingredients, indent=2))
+    # print(json.dumps(ingredients, indent=2))
     score = find_best_score(ingredients)
-
     print(f"what is the total score of the highest-scoring cookie you can make? {score}")
 
 
 def part_two(file: str):
     raw_values = load_file(file)
     ingredients = parse_ingredients(raw_values)
-    print(json.dumps(ingredients, indent=2))
+    # print(json.dumps(ingredients, indent=2))
+    score = find_best_score(ingredients, 500)
+    print(f"what is the total score of the highest-scoring cookie you can make with a calorie total of 500? {score}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
