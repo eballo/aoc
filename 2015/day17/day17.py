@@ -19,6 +19,18 @@ def find_total_different_combinations(raw_values: List[int], liters: int):
     return total_different_combinations
 
 
+def find_min_number_containers_with_total_different_combinations(raw_values:List[int], liters:int)-> int:
+    min_number_containers_with_total_different_combinations = 9999999
+    for i in range(1, len(raw_values) + 1):
+        for combo in combinations(raw_values, i):
+            # print(i, combo)
+            if sum(combo) == liters:
+                # print(f"found! {i}, {combo}")
+                if len(combo) < min_number_containers_with_total_different_combinations:
+                    min_number_containers_with_total_different_combinations = len(combo)
+    return min_number_containers_with_total_different_combinations
+
+
 def part_one(file: str):
     raw_values = load_file(file)
 
@@ -30,13 +42,14 @@ def part_one(file: str):
 def part_two(file: str):
     raw_values = load_file(file)
 
-    for value in raw_values:
-        print(value)
+    print(raw_values)
+    result = find_min_number_containers_with_total_different_combinations(raw_values, 150)
+    print(f" How many different ways can you fill that number of containers and still hold exactly 150 litres? {result}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
