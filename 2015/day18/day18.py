@@ -52,20 +52,40 @@ def calculate_total_lights_on(grid: List[List[str]], steps: int) -> int:
     return lights_on
 
 
+def turn_on_corners(grid: List[List[str]]):
+    size = len(grid)
+    grid[0][0] = '#'
+    grid[0][size - 1] = '#'
+    grid[size - 1][0] = '#'
+    grid[size - 1][size - 1] = '#'
+
+
+def calculate_total_lights_on_with_corners_on(grid: List[List[str]], steps: int) -> int:
+    turn_on_corners(grid)  # Ensure corners are on initially
+    for _ in range(steps):
+        grid = calculate_next_state(grid)
+        turn_on_corners(grid)  # Ensure corners stay on after each step
+
+    lights_on = sum(row.count('#') for row in grid)
+    return lights_on
+
+
 def part_one(file: str):
-    grid = load_file(file) # load grid 100x100
-    # print(grid)
+    grid = load_file(file)  # load grid 100x100
     total_lights = calculate_total_lights_on(grid, 100)
     print(f"how many lights are on after 100 steps? {total_lights}")
 
 
 def part_two(file: str):
-    raw_values = load_file(file)
+    #  with the four corners always in the on state, how many lights are on after 100 steps?
+    grid = load_file(file)
+    total_lights = calculate_total_lights_on_with_corners_on(grid, 100)
+    print(f"with the four corners always in the on state, how many lights are on after 100 steps? {total_lights}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
