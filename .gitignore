@@ -1,6 +1,11 @@
 .idea/
 .python-version
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 # remove data from github
 **/input.txt
 **/test.txt
