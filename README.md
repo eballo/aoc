@@ -1,4 +1,4 @@
-[![Python 3.7][python-shield]][python-url]
+[![Python 3.13][python-shield]][python-url]
 
 # Advent of Code
 
@@ -24,13 +24,14 @@ Each file has a method for `part_one()` and `part_two()`.
     └── ...
 ```
 
-**NOTE:** the input data is not in the repository, you will need to use your own if you want to test it.
+**NOTE:** the input data is not in the repository, you will need to use your own input file if you want to test it.
 
 ## Development setup
 1 - Create a virtual environment using the latest python version and activate the environment
 
 ```shell
-pyenv virtualenv 3.10 aoc
+pyenv install 3.13.0
+pyenv virtualenv 3.13.0 aoc
 pyenv local aoc
 ```
 2 - Install the requirements
@@ -60,5 +61,5 @@ Template copied to '/Users/XXX/Documents/work/python/aoc/2015/day03/day3.py
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[python-shield]: https://img.shields.io/badge/python-3.10-blue.svg
-[python-url]: https://www.python.org/downloads/release/python-3100/
+[python-shield]: https://img.shields.io/badge/python-3.13-blue.svg
+[python-url]: https://www.python.org/downloads/release/python-3130/
