@@ -1,5 +1,3 @@
-from aocd import get_data
-
 
 def load_file(file):
     with open(file) as f:
