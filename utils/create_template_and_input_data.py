@@ -1,11 +1,11 @@
-import datetime
+from datetime import datetime
 import os
 from typing import Tuple
 
 from aocd import get_data
-import shutil
 
 from aocd.exceptions import PuzzleLockedError
+from jinja2 import Template
 
 
 def add_left_padding(day: str) -> str:
@@ -26,18 +26,32 @@ def create_directory(full_directory_path: str) -> None:
     else:
         print(f"Directory '{full_directory_path}' already exists - SKIP")
 
+def load_template(template: str) -> Template:
+    with open(template) as file_:
+        template = Template(file_.read())
+    return  template
 
 def create_file_from_template(directory_path: str, full_directory_path: str, day: str) -> None:
-    """ Copies a template file to the full directory if it doesn't exist """
+    """ Create a template file to the new created directory if it doesn't exist """
     padding_day = add_left_padding(day)
-    template = directory_path + "/template/dayXX.py"
+    rendered_content = get_rendered_content_template(day, directory_path)
     destination = full_directory_path + f"/day{padding_day}.py"
     if not os.path.exists(destination):
-        shutil.copy(template, destination)
+        with open(destination, "w") as f:
+            f.write(rendered_content.strip())
         print("Template copied to '" + destination + "")
     else:
         print("Template not copied - File already exists - SKIP")
 
+def get_rendered_content_template(day: str, directory_path:str) -> str:
+    today = datetime.now().strftime("%Y-%m-%d")
+    custom_comment = f"Generated on {today}. Ready for the challenge!"
+    template = directory_path + "/template/dayXX.jinja"
+    jinja_template = load_template(template)
+    rendered_content = jinja_template.render(
+        day=day,
+        comment=custom_comment)
+    return rendered_content
 
 def create_input_data(directory_path: str, year: str, day: str) -> None:
     """
@@ -75,8 +89,8 @@ def create_data(directory_path: str, year: str, day: str) -> None:
 
 
 def get_year_and_day() -> Tuple[str, str]:
-    default_day = datetime.datetime.now().day
-    default_year = datetime.datetime.now().year
+    default_day = datetime.now().day
+    default_year = datetime.now().year
     try:
         year = input(f"Year ({default_year}): ")
         day = input(f"Day ({default_day}): ")
