@@ -49,7 +49,7 @@ def get_rendered_content_template(year:str, day: str, directory_path: str) -> st
     custom_comment = f"Generated on {today}"
     title = get_advent_of_code_title(day, year)
 
-    template = directory_path + "/template/dayXX.jinja"
+    template = directory_path + "/templates/dayXX.jinja"
     jinja_template = load_template(template)
 
     rendered_content = jinja_template.render(
