@@ -34,6 +34,3 @@ This repository contains my solutions to the Advent of Code 2018 challenges.
 
 These solutions are provided for educational purposes. While I've made efforts to ensure they are correct and efficient, there may be room for improvement. Feedback and suggestions for optimization are always welcome!
 
-## License
-
-This repository is licensed under the [MIT License](LICENSE).

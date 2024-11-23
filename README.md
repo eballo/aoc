@@ -36,7 +36,7 @@ pyenv local aoc
 ```
 2 - Install the requirements
 ```shell
-pip install -r requirements.txt
+poetry install
 ```
 3 - Have fun!
 
