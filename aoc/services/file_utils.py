@@ -45,7 +45,7 @@ def create_file_from_template(directory_path: str, full_directory_path: str, yea
 
 
 def get_rendered_content_template(year:str, day: str, directory_path: str) -> str:
-    today = datetime.now().strftime("%Y-%m-%d %H:%M")
+    today = datetime.now().strftime("%d-%m-%Y %H:%M")
     custom_comment = f"Generated on {today}"
     title = get_advent_of_code_title(day, year)
 
