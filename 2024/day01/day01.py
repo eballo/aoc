@@ -30,6 +30,7 @@ def part_one(file: str):
 def part_two(file: str):
     raw_data = get_raw_data(file)
 
+    total_similarity_score = []
     left = []
     right = []
     for value in raw_data:
@@ -38,12 +39,14 @@ def part_two(file: str):
 
     left.sort()
     right.sort()
+    for element in left:
+        total_similarity_score.append(element * right.count(element))
 
-    print(left + " " + right)
+    print(f"What is the total similarity score between your lists? {sum(total_similarity_score)}")
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
