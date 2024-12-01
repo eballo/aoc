@@ -18,13 +18,10 @@ def part_one(file: str):
 
     left.sort()
     right.sort()
-    print(left)
-    print(right)
     sorted_list = zip(left, right)
     for element in sorted_list:
         total_distance.append(abs(element[0] - element[1]))
 
-    print(total_distance)
     print(f"What is the total distance between your lists? {sum(total_distance)}")
 
 def part_two(file: str):
