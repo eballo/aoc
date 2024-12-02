@@ -80,15 +80,44 @@ def part_one(file: str):
     print(f"How many reports are safe? {total_safe_reports}")
 
 def part_two(file: str):
+    total_safe_reports = 0
     raw_data = get_raw_data(file)
+    reports_solution = {}
 
-    for value in raw_data:
-        print(value)
+    print(raw_data)
+    for i, reports in enumerate(raw_data, 1):
+        print(f"Report {i}")
+        report = []
+        for level in reports:
+            report.append(int(level))
+
+        combinations = []
+        all_combinations = [report[:index] + report[index + 1:] for index in range(len(report))]
+        for x, combination in enumerate(all_combinations):
+            combinations.append({f"c_{x}": combination,
+                                       "is_safe": is_safe(combination)})
+
+        reports_solution[i] = {"list": report,
+                               "is_safe": is_safe(report),
+                               "combinations": combinations}
+
+
+
+    print(reports_solution)
+    for k, v in reports_solution.items():
+        combi_result = False
+        for x in  v["combinations"]:
+            if x["is_safe"]:
+                combi_result = True
+        if v["is_safe"] or combi_result:
+            total_safe_reports += 1
+
+    print(f"How many reports are safe? {total_safe_reports}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
-    part_one("input.txt")
+    #part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
