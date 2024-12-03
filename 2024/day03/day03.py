@@ -23,14 +23,27 @@ def part_one(file: str):
 
 def part_two(file: str):
     raw_data = get_raw_data(file)
+    results = re.findall(r"mul\((\d+),(\d+)\)|(do\(\)|don't\(\))", raw_data)
 
-    print(raw_data[0])
+    print(results)
+    total =0
 
+    enabled = True
+    for instruction in results:
+        if instruction[2] == "" and enabled:
+            total += int(instruction[0]) * int(instruction[1])
+        else:
+            if instruction[2] == "do()":
+                enabled = True
+            else:
+                enabled = False
+
+    print(f"What do you get if you add up all of the results of the multiplications? {total}")
 
 
 if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
