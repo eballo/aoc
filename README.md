@@ -30,9 +30,8 @@ Each file has a method for `part_one()` and `part_two()`.
 1 - Create a virtual environment using the latest python version and activate the environment
 
 ```shell
-pyenv install 3.13.0
-pyenv virtualenv 3.13.0 aoc
-pyenv local aoc
+python -m venv venv
+source venv/bin/activate
 ```
 2 - Install the requirements
 ```shell
@@ -57,6 +56,13 @@ Day (2): 3
 Directory '/Users/XXX/Documents/work/python/aoc/2015/day03' created successfully.
 Data successfully created.
 Template copied to '/Users/XXX/Documents/work/python/aoc/2015/day03/day3.py
+```
+
+We can also use the CLI command:
+```shell
+pip install -e .
+aocx --help
+aocx create -y 2024 -d 5
 ```
 
 <!-- MARKDOWN LINKS & IMAGES -->
