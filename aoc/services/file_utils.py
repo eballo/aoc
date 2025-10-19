@@ -3,7 +3,7 @@ from datetime import datetime
 
 from jinja2 import Template
 
-from .aoc_parser import get_advent_of_code_title
+from aoc.services.aoc_parser import get_advent_of_code_title
 
 
 def add_left_padding(day: str) -> str:
