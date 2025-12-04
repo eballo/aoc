@@ -18,11 +18,8 @@ def get_raw_data(file: str) -> list[list[str]]:
     matrix = []
     with open(file) as f:
         for line in f:
-            column = []
-            row = line.split()  # remove end of line
-            for i in range(0, len(row[0])):
-                column.append(str(row[0][i]))
-            matrix.append(column)
+            row_string = line.strip()
+            matrix.append(list(row_string))
     return matrix
 
 
@@ -59,12 +56,44 @@ def part_one(file: str):
 
 
 def part_two(file: str):
-    raw_data = get_raw_data(file)
-    print(raw_data)
-    total = calculate_accessible_rolls(raw_data)
-    print(
-        f"How many rolls of paper in total can be removed by the Elves and their forklifts? {total}"
-    )
+    grid = get_raw_data(file)
+
+    rows = len(grid)
+    cols = len(grid[0])
+
+    grand_total_removed = 0
+    round_number = 1
+
+    while True:
+        rolls_to_remove = []
+
+        # Scan for rolls to be removed
+        for r in range(rows):
+            for c in range(cols):
+                # Only check existing rolls
+                if grid[r][c] == "@":
+                    neighbors = count_adjacent_rolls(grid, r, c)
+                    # The Rule: Remove if strictly less than 4 neighbors
+                    if neighbors < 4:
+                        rolls_to_remove.append((r, c))
+
+        # check for stop condition
+        count = len(rolls_to_remove)
+        if count == 0:
+            print(f"Simulation stopped. No more moves possible.")
+            break
+
+        # update the grid
+        print(f"Round {round_number}: Removing {count} rolls...")
+        for r, c in rolls_to_remove:
+            grid[r][c] = "."
+
+        grand_total_removed += count
+
+        # next round
+        round_number += 1
+
+    print(f"Total rolls removed: {grand_total_removed}")
 
 
 if __name__ == "__main__":
@@ -74,8 +103,8 @@ if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Example ==")
-    # part_two("example.txt")
+    print("=== Part 2 Example ==")
+    part_two("example.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
