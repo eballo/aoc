@@ -35,58 +35,44 @@ def count_adjacent_rolls(data: list[list[str]], r: int, c: int) -> int:
     return count
 
 
-def calculate_accessible_rolls(data: list[list[str]]) -> int:
-    total_accessible = 0
+def get_accessible_rolls(data: list[list[str]]) -> list[tuple[int, int]]:
     rows = len(data)
     cols = len(data[0])
+    rolls = []
     for r in range(rows):
         for c in range(cols):
             if data[r][c] == "@":
                 neighbors = count_adjacent_rolls(data, r, c)
                 if neighbors < 4:
-                    total_accessible += 1
-    return total_accessible
+                    rolls.append((r, c))
+    return rolls
 
 
 def part_one(file: str):
     raw_data = get_raw_data(file)
     print(raw_data)
-    total = calculate_accessible_rolls(raw_data)
-    print(f"How many rolls of paper can be accessed by a forklift? {total}")
+    rolls = get_accessible_rolls(raw_data)
+    print(f"How many rolls of paper can be accessed by a forklift? {len(rolls)}")
 
 
 def part_two(file: str):
-    grid = get_raw_data(file)
-
-    rows = len(grid)
-    cols = len(grid[0])
-
+    raw_data = get_raw_data(file)
     grand_total_removed = 0
     round_number = 1
 
     while True:
-        rolls_to_remove = []
-
         # Scan for rolls to be removed
-        for r in range(rows):
-            for c in range(cols):
-                # Only check existing rolls
-                if grid[r][c] == "@":
-                    neighbors = count_adjacent_rolls(grid, r, c)
-                    # The Rule: Remove if strictly less than 4 neighbors
-                    if neighbors < 4:
-                        rolls_to_remove.append((r, c))
+        rolls_to_remove = get_accessible_rolls(raw_data)
 
-        # check for stop condition
         count = len(rolls_to_remove)
         if count == 0:
-            print(f"Simulation stopped. No more moves possible.")
+            print("No more moves possible.")
             break
 
         # update the grid
-        print(f"Round {round_number}: Removing {count} rolls...")
+        # print(f"Round {round_number}: Removing {count} rolls...")
         for r, c in rolls_to_remove:
-            grid[r][c] = "."
+            raw_data[r][c] = "."
 
         grand_total_removed += count
 

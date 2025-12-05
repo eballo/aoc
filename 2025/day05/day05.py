@@ -13,7 +13,8 @@ def get_ranges(value: str) -> list[int]:
     return [int(x) for x in value.split("-")]
 
 
-def get_data(no_ingredients: bool, raw_data: list[str]) -> tuple[list[Any], list[Any]]:
+def get_data(raw_data: list[str]) -> tuple[list[Any], list[Any]]:
+    no_ingredients = True
     ranges_list = []
     ingredients = []
     for line in raw_data:
@@ -29,10 +30,30 @@ def get_data(no_ingredients: bool, raw_data: list[str]) -> tuple[list[Any], list
     return ingredients, ranges_list
 
 
+def get_merged_ranges(ranges_list: list[Any]) -> list[list[int]]:
+    ranges_list.sort(key=lambda x: x[0])
+    print(f"sorted ranges {ranges_list}")
+    current_start, current_end = ranges_list[0]
+    merged_ranges = []
+    for j in range(1, len(ranges_list)):
+        start, end = ranges_list[j]
+
+        # overlap
+        # If the next range starts inside (or immediately after) the current one
+        if start <= current_end + 1:
+            current_end = max(current_end, end)
+        else:
+            # No overlap
+            merged_ranges.append([current_start, current_end])
+            current_start, current_end = start, end
+
+    merged_ranges.append([current_start, current_end])
+    return merged_ranges
+
+
 def part_one(file: str):
     raw_data = get_raw_data(file)
-    no_ingredients = True
-    ingredients, ranges_list = get_data(no_ingredients, raw_data)
+    ingredients, ranges_list = get_data(raw_data)
 
     print(f"Ranges: {ranges_list}")
     print(f"Ingredients: {ingredients}")
@@ -52,9 +73,27 @@ def part_one(file: str):
 
 def part_two(file: str):
     raw_data = get_raw_data(file)
+    _, ranges_list = get_data(raw_data)
 
-    for value in raw_data:
-        print(value)
+    print(f"Ranges: {ranges_list}")
+    print("-----")
+
+    # NOTE: There are ranges with overlapping numbers
+    # and this is causing issues
+    # I want to make unique ranges that does not have overlap
+    merged_ranges = get_merged_ranges(ranges_list)
+
+    print(f"merged ranges {merged_ranges}")
+    count = 0
+    for j in range(len(merged_ranges)):
+        start, end = merged_ranges[j]
+        diff = end - start
+        count += diff + 1
+        # print(f" ranges {start}-{end}: {diff} - {count}")
+
+    print(
+        f"How many ingredient IDs are considered to be fresh according to the fresh ingredient ID ranges? {count}"
+    )
 
 
 if __name__ == "__main__":
@@ -64,5 +103,8 @@ if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Example ==")
+    part_two("example.txt")
+
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
