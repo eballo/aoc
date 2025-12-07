@@ -1,5 +1,6 @@
 # Generated on 07-12-2025 07:16
 # --- Day 7: Laboratories ---
+from collections import defaultdict
 
 
 def get_raw_data(file: str) -> list[str]:
@@ -33,6 +34,32 @@ def update_line(
     return list(set(updated_pos)), "".join(line_list), total
 
 
+def update_quantum_counts(
+    current_counts: dict[int, int], line: str
+) -> tuple[dict[int, int], str]:
+    """
+    Basically I will count if it goes left, right and if it goes through
+    All possible combinations.
+    So if it splits we count it 2 times and if it goes through 1 time
+    """
+    next_counts = defaultdict(int)
+    line_list = list(line)
+    for col, count in current_counts.items():
+        if line[col] == "S":
+            print("Start Point!")
+            next_counts[col] += count
+        elif line[col] == "^":
+            next_counts[col - 1] += count
+            next_counts[col + 1] += count
+            line_list[col - 1] = "|"
+            line_list[col + 1] = "|"
+        elif line[col] == ".":
+            next_counts[col] += count
+            line_list[col] = "|"
+        # print(f"{col} - {next_counts}")
+    return next_counts, "".join(line_list)
+
+
 def part_one(file: str):
     raw_data = get_raw_data(file)
 
@@ -53,8 +80,21 @@ def part_one(file: str):
 def part_two(file: str):
     raw_data = get_raw_data(file)
 
-    for value in raw_data:
-        print(value)
+    col = raw_data[0].find("S")
+    # create a dict with {column_index: number_of_timelines}
+    # in the column we will update the current position + the total acumulated timelines
+    all_paths = []
+    current_counts = {col: 1}
+    for line in raw_data:
+        # print(line)
+        current_counts, new_paths = update_quantum_counts(current_counts, line)
+        all_paths.append(new_paths)
+
+    # print(all_paths)
+    print(f"Current counts: {current_counts}")
+    print(
+        f"In total, how many different timelines would a single tachyon particle end up on? {sum(current_counts.values())}"
+    )
 
 
 if __name__ == "__main__":
@@ -64,8 +104,8 @@ if __name__ == "__main__":
     print("=== Part 1 Input ==")
     part_one("input.txt")
 
-    # print("=== Part 2 Example ==")
-    # part_two("example.txt")
+    print("=== Part 2 Example ==")
+    part_two("example.txt")
 
-    # print("=== Part 2 Input ==")
-    # part_two("input.txt")
+    print("=== Part 2 Input ==")
+    part_two("input.txt")
