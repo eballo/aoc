@@ -3,4 +3,4 @@
 all: run
 
 run:
-	@uv run aocx
+	@uv run aocx create

@@ -45,8 +45,9 @@ make run
 
 To create a directory for the year and day and download the input data, use:
 ```shell
-uv run aocx -y 2024 -d 5
+uv run aocx create -y 2024 -d 5
 ```
+Omit `-y` or `-d` to be prompted only for the missing value. Use `uv run aocx --help` to see the available commands.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
