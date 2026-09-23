@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -9,9 +10,12 @@ from aoc.services.file_utils import (
     create_directory,
     create_file_from_template,
 )
-from aoc.services.input_data import get_year_and_day
-
 app = typer.Typer(no_args_is_help=True, help="AOC project helper CLI.")
+
+
+@app.callback()
+def main() -> None:
+    """Manage Advent of Code scaffolds."""
 
 
 def create_aoc_template(directory_path: str, year_str: str, day_str: str) -> None:
@@ -46,22 +50,22 @@ def create(
     """
     Create the Advent of Code scaffold for the specified year/day.
     """
+    now = datetime.now()
+    default_year = now.year if now.month == 12 else now.year - 1
+    default_day = min(now.day, 25) if now.month == 12 else 1
     try:
-        # Allow partial/empty flags and fall back to your existing prompt function.
-        if year is None or day is None:
-            y, d = get_year_and_day()
-            year = year or y
-            day = day or d
-
-        # Normalize to strings in case the prompt returned ints, etc.
-        year = str(year)
-        day = str(day)
+        year = year if year is not None else typer.prompt("Year", default=str(default_year))
+        day = day if day is not None else typer.prompt("Day", default=str(default_day))
+        if not year.isdecimal() or not 2015 <= int(year) <= now.year:
+            raise ValueError(f"Year must be between 2015 and {now.year}")
+        if not day.isdecimal() or not 1 <= int(day) <= 25:
+            raise ValueError("Day must be between 1 and 25")
 
         create_aoc_template(str(directory), year, day)
         typer.secho(
             f"✅ Created AOC template for {year}/day {day} under {directory}", bold=True
         )
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         raise typer.Abort()
     except Exception as e:
         typer.secho(f"Error: {e}", fg=typer.colors.RED)
