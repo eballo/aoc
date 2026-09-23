@@ -3,4 +3,4 @@
 all: run
 
 run:
-	@python aoc/cli.py
+	@uv run aocx
