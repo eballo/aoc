@@ -1,4 +1,4 @@
-[![Python 3.13][python-shield]][python-url] ![womm](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)
+[![Python 3.14][python-shield]][python-url] ![womm](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)
 
 # Advent of Code
 
@@ -27,45 +27,28 @@ Each file has a method for `part_one()` and `part_two()`.
 **NOTE:** the input data is not in the repository, you will need to use your own input file if you want to test it.
 
 ## Development setup
-1 - Create a virtual environment using the latest python version and activate the environment
+1 - Install [uv](https://docs.astral.sh/uv/) and synchronize the dependencies with Python 3.14. `uv` creates the `.venv` environment automatically:
 
 ```shell
-python -m venv venv
-source venv/bin/activate
+uv sync
 ```
-2 - Install the requirements
-```shell
-poetry install
-```
-3 - Have fun!
+2 - Have fun! Run commands with `uv run` (no activation needed).
 
 ### Quick start template
 **NOTE:** We are using [AOCD](https://pypi.org/project/advent-of-code-data/) python package, the token needs to be setup in order to work
 `.config/aocd/token`
 
-We can run the command:
+Run `make run` to be prompted for the year and day:
 ```shell
- make run
-```
-Will ask you few questions and after that will create a directory for the year and the day and download the input data to work with.
-```shell
-$> make run                                                                                                               ok | aoc 3.10.13 py | 10:41:53
-python utils/create_template_and_input_data.py
-Year (2024): 2015
-Day (2): 3
-Directory '/Users/XXX/Documents/work/python/aoc/2015/day03' created successfully.
-Data successfully created.
-Template copied to '/Users/XXX/Documents/work/python/aoc/2015/day03/day3.py
+make run
 ```
 
-We can also use the CLI command:
+To create a directory for the year and day and download the input data, use:
 ```shell
-pip install -e .
-aocx --help
-aocx create -y 2024 -d 5
+uv run aocx -y 2024 -d 5
 ```
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[python-shield]: https://img.shields.io/badge/python-3.13-blue.svg
-[python-url]: https://www.python.org/downloads/release/python-3130/
+[python-shield]: https://img.shields.io/badge/python-3.14-blue.svg
+[python-url]: https://www.python.org/downloads/release/python-3140/
